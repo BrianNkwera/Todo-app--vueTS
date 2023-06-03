@@ -1,15 +1,15 @@
 interface ApiRequestType {
   endpoint: string;
   method: string;
-  body: BodyInit;
+  body: object;
 }
 
-interface  ApiResponseType{
+interface  ApiResponseType <T, E>{
     status: number;
-    data: object;
+    data: T | E;
 }
 
-export default async ({ endpoint, method, body }: ApiRequestType) : Promise <ApiResponseType> => {
+export default async <T, E>({ endpoint, method, body }: ApiRequestType) : Promise <ApiResponseType<T, E>> => {
   //parse the string to JSON
 
   const authorization = ""
@@ -23,7 +23,7 @@ export default async ({ endpoint, method, body }: ApiRequestType) : Promise <Api
         "Content-Type": "application/json",
         authorization,
       },
-      body,
+      body: JSON.stringify(body),
     }
   );
 

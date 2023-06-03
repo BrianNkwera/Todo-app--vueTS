@@ -51,7 +51,7 @@ export default defineStore("todo", {
         }
       );
 
-      if (status == 400) return;
+      if (status == 404) return;
 
       this.todos = data as TodoType[];
     },

@@ -12,10 +12,10 @@ interface  ApiResponseType <T, E>{
 export default async <T, E>({ endpoint, method, body }: ApiRequestType) : Promise <ApiResponseType<T, E>> => {
   //parse the string to JSON
 
-  const authorization = ""
+  const authorization = `Basic ${btoa('admin:district')}`
 
   const response = await fetch(
-    `https://dev.hisptz.com/dhis2/api/dataStore/brianNkwera${endpoint}`,
+    `/api${endpoint}`,
     {
       method,
       headers: {

@@ -1,0 +1,36 @@
+:root {
+  --primary: #006dc7;
+  --secondary: #878383;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.no-outline:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: var(--primary);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.z-200{
+  z-index: 200;
+}
+

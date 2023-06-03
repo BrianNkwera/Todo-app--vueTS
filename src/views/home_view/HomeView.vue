@@ -1,7 +1,9 @@
 <script setup lang="ts">
+//components
 import ToDoForm from './components/ToDoForm.vue';
 import TabsComponent from '../../shared/TabsComponent.vue';
 import TodoList from './components/TodoList.vue';
+
 
 </script>
 
@@ -19,7 +21,7 @@ import TodoList from './components/TodoList.vue';
         </div>
 
         <div class="todos pe-md-4">
-            <TodoList :key="n" v-for="n in 10" class="my-3" />
+            <TodoList class="my-3" />
         </div>
 
         <button class="float bg-primary text-white btn fw-bolder" target="_blank">

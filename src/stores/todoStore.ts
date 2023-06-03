@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
 import apiClient from "../apiClient";
-import { TodoType, ErrorResponseType } from "../tpyes/todoInterface";
+import {
+  TodoType,
+  MessageResponseType,
+  EditToDoType,
+} from "../tpyes/todoInterface";
 
 export default defineStore("todo", {
   state: () => ({
@@ -9,14 +13,14 @@ export default defineStore("todo", {
 
   actions: {
     async addToDo(toDo: TodoType) {
-      const { data, status } = await apiClient<TodoType, ErrorResponseType>({
+      const { data, status } = await apiClient<TodoType, MessageResponseType>({
         endpoint: `/${toDo.id}`,
         method: "POST",
         body: toDo,
       });
 
       if (status !== 201) {
-        const error = data as ErrorResponseType;
+        const error = data as MessageResponseType;
 
         throw new Error(error.message);
       }
@@ -27,45 +31,50 @@ export default defineStore("todo", {
     },
 
     async deleteTodo(id: string) {
-      const { data, status } = await apiClient({
-        endpoint: ``
-      }`/category/${id}`, "DELETE");
+      const { data, status } = await apiClient<TodoType, MessageResponseType>({
+        endpoint: `/${id}`,
+        method: "DELETE",
+      });
 
-      if (status !== 200) throw new Error(data.info);
+      const responseData = data as MessageResponseType;
 
-      this.categories = this.categories.filter(
-        (category) => id !== category._id
-      );
+      if (status !== 200) throw new Error(responseData.message);
+
+      this.todos = this.todos.filter((todo) => id !== todo.id);
     },
-    async getAllCategories(orderBy) {
-      if (this.categories.length !== 0) return;
 
-      const { data, status } = await apiClient(
-        `/categories?orderBy=${orderBy}`,
-        "get"
+    async getAllTodos() {
+      const { data, status } = await apiClient<TodoType[], MessageResponseType>(
+        {
+          endpoint: `?fiels=.`,
+          method: "GET",
+        }
       );
 
-      if (status !== 200) throw new Error(data.info);
+      if (status == 400) return;
 
-      this.categories = data;
+      this.todos = data as TodoType[];
     },
-    async editCategory(editedCategory) {
-      const body = { name: editedCategory.name, SKU: editedCategory.SKU };
 
+    async updateTodo(toDo: TodoType) {
       //update in db
-      const { data, status } = await apiClient(
-        `/category/${editedCategory._id}`,
-        "PATCH",
-        JSON.stringify(body)
-      );
+      const { data, status } = await apiClient<
+        EditToDoType,
+        MessageResponseType
+      >({ endpoint: `/${toDo.id}`, method: "PUT", body: toDo });
 
-      if (status !== 200) throw new Error(data.info);
+      const error = data as MessageResponseType;
+
+      if (status !== 200) throw new Error(error.message);
+
+      const editedToDo = data as TodoType;
 
       //update in store
-      let objIndex = this.categories.findIndex(
-        (category) => category._id === editedCategory._id
+      let objIndex = this.todos.findIndex(
+        (todo) => todo.id === editedToDo.id
       );
-      this.categories[objIndex] = data.category;
+
+      this.todos[objIndex] = editedToDo;
     },
   },
 });

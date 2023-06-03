@@ -1,7 +1,7 @@
 interface ApiRequestType {
   endpoint: string;
   method: string;
-  body: object;
+  body?: object;
 }
 
 interface  ApiResponseType <T, E>{

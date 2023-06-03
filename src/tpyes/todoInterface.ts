@@ -1,3 +1,10 @@
+export interface EditToDoType {
+  id: string;
+  title?: string;
+  completd?: string;
+  lastUpdated: string;
+}
+
 export interface TodoType {
   id: string;
   title: string;
@@ -6,7 +13,7 @@ export interface TodoType {
   lastUpdated: string;
 }
 
-export interface ErrorResponseType {
+export interface MessageResponseType {
   httpStatus: string;
   httpStatusCode: number;
   status: string;

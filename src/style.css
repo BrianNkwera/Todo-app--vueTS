@@ -16,6 +16,16 @@
   border-color: var(--primary) !important;
 }
 
+
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.form-check-input {
+  width: 1.2rem;
+  height: 1.2rem;
+}
 .text-primary {
   color: var(--primary) !important;
 }

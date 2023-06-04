@@ -9,12 +9,16 @@ import ToDoItem from "./ToDoItem.vue";
 //stores
 import useTodoStore from "../../../stores/todoStore";
 import { TodoType } from "../../../types/todoInterface";
+import ConfirmationModal from "./ConfirmationModal.vue";
 
 const { todos } = storeToRefs(useTodoStore());
 const { getAllTodos, updateTodo, deleteTodo } = useTodoStore();
 
 //data
 const loadingTodos = ref(true);
+const loadingDelete = ref(false);
+const deletedTodo = ref("");
+const confirmationModalOpened = ref(false);
 
 //emits
 const emit = defineEmits(["editTodo"]);
@@ -26,14 +30,9 @@ onMounted(async () => {
 
 //methods
 const checkedCompleted = (todo: TodoType) => {
-  console.log(todo);
   const todoToUpdate = { ...todo };
 
-  console.log(todoToUpdate);
-
   todoToUpdate.completed = !todoToUpdate.completed;
-
-  console.log(todoToUpdate);
 
   updateTodo(todoToUpdate);
 };
@@ -42,9 +41,29 @@ const editTodo = (toDoItem: TodoType) => {
   emit("editTodo", toDoItem);
 };
 
-const onDeleteTodo =  async (id: string) => {
-    await deleteTodo(id);
-}
+const onDeleteTodo = async () => {
+  loadingDelete.value = true;
+  await deleteTodo(deletedTodo.value);
+  loadingDelete.value = false;
+
+  const modal = document.getElementById("confirmModal");
+  if (!modal) return;
+  //@ts-ignore
+  const categoryModal = bootstrap.Modal.getInstance(modal);
+  categoryModal?.hide();
+};
+
+const openConfirmationModal = async (id: string) => {
+  deletedTodo.value = id;
+  confirmationModalOpened.value = true;
+
+  setTimeout(() => {
+    const confirmModal = document.getElementById("confirmModal");
+    //@ts-ignore
+    const modal = new bootstrap.Modal(confirmModal);
+    modal?.show();
+  }, 200);
+};
 </script>
 
 <template>
@@ -69,11 +88,19 @@ const onDeleteTodo =  async (id: string) => {
         :created="todo.created"
         :lastUpdated="todo.lastUpdated"
         @checkedCompleted="checkedCompleted(todo)"
-        @deleteTodo="onDeleteTodo(todo.id)"
+        @deleteTodo="openConfirmationModal(todo.id)"
         @editTodo="editTodo(todo)"
       />
     </div>
   </div>
+  <ConfirmationModal placeholder="Are you sure you want to delete todo item?">
+    <button style="width: 70px" @click="onDeleteTodo" class="btn bg-secondary text-white" type="button">
+      <div v-if="loadingDelete" class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <span v-else>Delete</span>
+    </button>
+  </ConfirmationModal>
 </template>
 
 <style scoped></style>

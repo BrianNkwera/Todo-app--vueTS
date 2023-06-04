@@ -300,6 +300,8 @@ const editSelectedTodo = async () => {
       editingErrors.value.description === ""
     ) {
       loading.value = true;
+      
+      editedTodo.value.lastUpdated = new Date().toString();
 
       await updateTodo(editedTodo.value);
 

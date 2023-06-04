@@ -11,7 +11,7 @@ import useTodoStore from "../../../stores/todoStore";
 import { TodoType } from "../../../types/todoInterface";
 
 const { todos } = storeToRefs(useTodoStore());
-const { getAllTodos, updateTodo } = useTodoStore();
+const { getAllTodos, updateTodo, deleteTodo } = useTodoStore();
 
 //data
 const loadingTodos = ref(true);
@@ -26,10 +26,10 @@ onMounted(async () => {
 
 //methods
 const checkedCompleted = (todo: TodoType) => {
-    console.log(todo);
-  const todoToUpdate = {...todo };
+  console.log(todo);
+  const todoToUpdate = { ...todo };
 
-  console.log(todoToUpdate)
+  console.log(todoToUpdate);
 
   todoToUpdate.completed = !todoToUpdate.completed;
 
@@ -38,13 +38,13 @@ const checkedCompleted = (todo: TodoType) => {
   updateTodo(todoToUpdate);
 };
 
-const deleteTodo = (id: string) => {
-  console.log(id);
-};
-
 const editTodo = (toDoItem: TodoType) => {
   emit("editTodo", toDoItem);
 };
+
+const onDeleteTodo =  async (id: string) => {
+    await deleteTodo(id);
+}
 </script>
 
 <template>
@@ -69,7 +69,7 @@ const editTodo = (toDoItem: TodoType) => {
         :created="todo.created"
         :lastUpdated="todo.lastUpdated"
         @checkedCompleted="checkedCompleted(todo)"
-        @deleteTodo="deleteTodo(todo.id)"
+        @deleteTodo="onDeleteTodo(todo.id)"
         @editTodo="editTodo(todo)"
       />
     </div>

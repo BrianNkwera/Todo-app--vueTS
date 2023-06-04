@@ -4,7 +4,14 @@ import {
   TodoType,
   MessageResponseType,
   EditToDoType,
-} from "../tpyes/todoInterface";
+} from "../types/todoInterface";
+
+interface GetAllTodosType {
+  entries: {
+    key: string;
+    value: TodoType;
+  }[];
+}
 
 export default defineStore("todo", {
   state: () => ({
@@ -32,7 +39,10 @@ export default defineStore("todo", {
     },
 
     async deleteTodo(id: string) {
-      const { data, status } = await apiClient<TodoType, MessageResponseType>({
+      const { data, status } = await apiClient<
+        GetAllTodosType,
+        MessageResponseType
+      >({
         endpoint: `/${id}`,
         method: "DELETE",
       });
@@ -45,16 +55,19 @@ export default defineStore("todo", {
     },
 
     async getAllTodos() {
-      const { data, status } = await apiClient<TodoType[], MessageResponseType>(
-        {
-          endpoint: `?fiels=.`,
-          method: "GET",
-        }
-      );
+      const { data, status } = await apiClient<
+        GetAllTodosType,
+        MessageResponseType
+      >({
+        endpoint: `?fields=.`,
+        method: "GET",
+      });
 
       if (status == 404) return;
 
-      this.todos = data as TodoType[];
+      const response = data as GetAllTodosType;
+
+      this.todos = response.entries.map(entry => entry.value)
     },
 
     async getSingleTodo(id: string) {

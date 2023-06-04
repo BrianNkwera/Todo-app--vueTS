@@ -1,5 +1,5 @@
 <template>
-    <div @click.capture="onModalBlur" class="modal fade" id="createCategoryModal" tabindex="-1"
+    <div @click.capture="onModalBlur" class="modal fade" id="createTodoModal" tabindex="-1"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content border-0 bg-inherit">
@@ -14,7 +14,7 @@
                         <div class="p-md-5 p-3">
                             <div class="mb-3">
                                 <label :class="[
-                                    (v$.name.$error || editingErrors.title) && 'text-danger',
+                                    (v$.title.$error || editingErrors.title) && 'text-danger',
                                     'form-label fs-6',
                                 ]">
                                     CATEGORY
@@ -24,12 +24,12 @@
                                     'form-control no-outline',
                                 ]" />
                                 <input v-else v-model="newTodo.title" placeholder="Category" :class="[
-                                    v$.name.$error && 'border-danger',
+                                    v$.title.$error && 'border-danger',
                                     'form-control no-outline',
                                 ]" />
-                                <div class="mt-2 text-danger fs-6" v-if="v$.name.$error || editingErrors.title">
+                                <div class="mt-2 text-danger fs-6" v-if="v$.title.$error || editingErrors.title">
                                     <font-awesome-icon icon="fa-solid fa-circle-exclamation" />
-                                    {{ v$?.name?.$errors[0]?.$message || editingErrors.title }}
+                                    {{ v$?.title?.$errors[0]?.$message || editingErrors.title }}
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -78,8 +78,7 @@
 import { ref, watch, onMounted } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
-import { EditToDoType, TodoType } from "../../../tpyes/todoInterface";
-import bootstrap from "../../../tpyes/bootstrap";
+import { EditToDoType, TodoType } from "../../../types/todoInterface";
 
 //stores
 import useTodoStore from "../../../stores/todoStore";
@@ -174,6 +173,7 @@ const closeModal = () => {
 
     const modal = document.getElementById("createCategoryModal");
     if (!modal) return;
+    //@ts-ignore
     const categoryModal = bootstrap.Modal.getInstance(modal);
     categoryModal?.hide();
 };
@@ -200,6 +200,7 @@ const createNewTodo = async () => {
 
             //close model
             const modal = document.getElementById("createTodoModal");
+            //@ts-ignore
             const createCategoryModal = bootstrap.Modal.getInstance(modal);
             createCategoryModal?.hide();
 
@@ -213,7 +214,7 @@ const createNewTodo = async () => {
             v$.value.$reset();
         }
     } catch (error: any) {
-        error.name = "";
+        error.title = "";
         // showNotification({
         //     isSuccess: false,
         //     header: "Failed",
@@ -250,7 +251,7 @@ const editSelectedTodo = async () => {
             closeModal();
         }
     } catch (error: any) {
-        error.name = "";
+        error.title = "";
         console.log(error);
         // showNotification({
         //     isSuccess: false,

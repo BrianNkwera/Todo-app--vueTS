@@ -1,10 +1,28 @@
 <script setup lang="ts">
+//imports
+import { ref } from "vue";
+
 //components
 import ToDoForm from './components/ToDoForm.vue';
 import TabsComponent from '../../shared/TabsComponent.vue';
 import TodoList from './components/TodoList.vue';
 
+//data
+const isCreateTodoForm = ref(true);
+const toDoFormaModalDisplayed = ref(false);
 
+
+const openCreateTodoModal = () => {
+    isCreateTodoForm.value = true;
+    toDoFormaModalDisplayed.value = true;
+
+    setTimeout(() => {
+        const categoryModal = document.getElementById("createTodoModal");
+        //@ts-ignore
+        const modal = new bootstrap.Modal(categoryModal);
+        modal?.show();
+    }, 100);
+}
 </script>
 
 <template>
@@ -14,7 +32,7 @@ import TodoList from './components/TodoList.vue';
                 <div>
                     <h3>To Do</h3>
                 </div>
-                <ToDoForm />
+                <ToDoForm :isCreateTodoForm="isCreateTodoForm" :toDoItem="null" />
             </div>
 
             <TabsComponent :tabs="['All Tasks', 'Completed']" />
@@ -24,7 +42,7 @@ import TodoList from './components/TodoList.vue';
             <TodoList class="my-3" />
         </div>
 
-        <button class="float bg-primary text-white btn fw-bolder" target="_blank">
+        <button class="float bg-primary text-white btn fw-bolder" target="_blank" @click="openCreateTodoModal">
             +
         </button>
     </div>

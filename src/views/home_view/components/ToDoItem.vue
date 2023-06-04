@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { TodoType } from '../../../types/todoInterface';
+
+const props = defineProps<TodoType>();
+
 
 </script>
 
@@ -7,9 +11,8 @@
         <div class="d-flex align-items-center col-9 col-md-9 mb-2">
             <input type="checkbox" class="me-3 form-check-input no-outline" />
             <div class="d-inline-block">
-                <p class="mb-0">Eat Food</p>
-                <small class="text-muted text-truncate d-inline-block description">Eat food today
-                    habvadjbvjbwrigvuwruvh nsfnvkwndovwnkvwn</small>
+                <p class="mb-0">{{ props.title }}</p>
+                <small class="text-muted text-truncate d-inline-block description">{{ props.description }}</small>
             </div>
         </div>
         <div class="col-3 col-md-3">
@@ -27,22 +30,22 @@
 .description {
     max-width: 400px;
 }
+
 @media only screen and (max-width: 600px) {
-  .description {
-    max-width: 300px;
-  }
+    .description {
+        max-width: 300px;
+    }
 }
 
 @media only screen and (max-width: 527px) {
-  .description {
-    max-width: 170px;
-  }
+    .description {
+        max-width: 170px;
+    }
 }
 
 @media only screen and (max-width: 424px) {
-  .description {
-    max-width: 120px;
-  }
+    .description {
+        max-width: 120px;
+    }
 }
-
 </style>

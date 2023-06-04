@@ -9,6 +9,7 @@ import {
 export default defineStore("todo", {
   state: () => ({
     todos: [] as TodoType[],
+    selectedTodo: null as TodoType | null,
   }),
 
   actions: {
@@ -56,7 +57,23 @@ export default defineStore("todo", {
       this.todos = data as TodoType[];
     },
 
-    async updateTodo(toDo: TodoType) {
+    async getSingleTodo(id: string) {
+      this.selectedTodo = this.todos.find((todo) => todo.id === id) || null;
+
+      if (this.selectedTodo !== null) return;
+
+      const { data, status } = await apiClient<TodoType, MessageResponseType>({
+        endpoint: `/${id}`,
+        method: "GET",
+      });
+
+      if (status === 200) {
+        const toDoFromApi = data as TodoType;
+        this.selectedTodo = toDoFromApi;
+      }
+    },
+
+    async updateTodo(toDo: EditToDoType) {
       //update in db
       const { data, status } = await apiClient<
         EditToDoType,
@@ -70,9 +87,7 @@ export default defineStore("todo", {
       const editedToDo = data as TodoType;
 
       //update in store
-      let objIndex = this.todos.findIndex(
-        (todo) => todo.id === editedToDo.id
-      );
+      let objIndex = this.todos.findIndex((todo) => todo.id === editedToDo.id);
 
       this.todos[objIndex] = editedToDo;
     },

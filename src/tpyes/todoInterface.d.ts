@@ -1,7 +1,9 @@
 export interface EditToDoType {
   id: string;
   title?: string;
-  completd?: string;
+  completed?: boolean;
+  created?: string;
+  description?: string;
   lastUpdated: string;
 }
 
@@ -10,6 +12,7 @@ export interface TodoType {
   title: string;
   completed: boolean;
   created: string;
+  description: string;
   lastUpdated: string;
 }
 

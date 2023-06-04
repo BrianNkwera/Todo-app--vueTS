@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import apiClient from "../apiClient";
-import {
+import type {
   TodoType,
   MessageResponseType,
   EditToDoType,
@@ -27,15 +27,19 @@ export default defineStore("todo", {
         body: toDo,
       });
 
+      console.log(status);
+
       if (status !== 201) {
         const error = data as MessageResponseType;
 
         throw new Error(error.message);
       }
 
-      const addedTodo = data as TodoType;
+      this.todos.push({...toDo});
 
-      this.todos.unshift(addedTodo);
+      console.log(this.todos)
+
+      console.log(toDo)
     },
 
     async deleteTodo(id: string) {
@@ -67,7 +71,7 @@ export default defineStore("todo", {
 
       const response = data as GetAllTodosType;
 
-      this.todos = response.entries.map(entry => entry.value)
+      this.todos = response.entries.map((entry) => entry.value);
     },
 
     async getSingleTodo(id: string) {
@@ -86,7 +90,7 @@ export default defineStore("todo", {
       }
     },
 
-    async updateTodo(toDo: EditToDoType) {
+    async updateTodo(toDo: TodoType) {
       //update in db
       const { data, status } = await apiClient<
         EditToDoType,
@@ -97,12 +101,12 @@ export default defineStore("todo", {
 
       if (status !== 200) throw new Error(error.message);
 
-      const editedToDo = data as TodoType;
-
       //update in store
-      let objIndex = this.todos.findIndex((todo) => todo.id === editedToDo.id);
+      let objIndex = this.todos.findIndex((todo) => todo.id === toDo.id);
 
-      this.todos[objIndex] = editedToDo;
+
+      this.todos[objIndex] = toDo;
+
     },
   },
 });

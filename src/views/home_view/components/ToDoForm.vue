@@ -120,7 +120,7 @@
                 <div v-if="loading" class="spinner-border" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
-                <span v-else>EDIT</span>
+                <span v-else>UPDATE</span>
               </button>
             </div>
           </form>
@@ -134,7 +134,7 @@
 import { ref, watch, onMounted } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
-import { EditToDoType, TodoType } from "../../../types/todoInterface";
+import { TodoType } from "../../../types/todoInterface";
 
 //stores
 import useTodoStore from "../../../stores/todoStore";
@@ -155,7 +155,7 @@ const emit = defineEmits(["onCreateTodo", "onCloseModal"]);
 
 //data
 const loading = ref(false);
-const editedTodo = ref<EditToDoType>({
+const editedTodo = ref<TodoType>({
   id: "",
   title: "",
   description: "",
@@ -180,6 +180,7 @@ const newTodo = ref<TodoType>({
 
 //hooks
 onMounted(() => {
+  editedTodo.value.id = props.toDoItem?.id || "";
   editedTodo.value.title = props.toDoItem?.title || "";
   editedTodo.value.description = props.toDoItem?.description || "";
   editedTodo.value.completed = props.toDoItem?.completed || false;
@@ -204,8 +205,8 @@ watch(
     if (newTitle === "") editingErrors.value.title = "Title is required";
     if (newTitle !== "") editingErrors.value.title = "";
     if (newDescripiton === "")
-      editingErrors.value.title = "Description is required";
-    if (newDescripiton !== "") editingErrors.value.title = "";
+      editingErrors.value.description = "Description is required";
+    if (newDescripiton !== "") editingErrors.value.description = "";
   }
 );
 
@@ -238,6 +239,17 @@ const createNewTodo = async () => {
 
     if (!v$.value.$error) {
       loading.value = true;
+
+      //create new uuid
+      const id = crypto.randomUUID();
+      newTodo.value.id = id.toString();
+
+      //create createdAt
+      const created = new Date().toString();
+      const lastUpdated = created;
+
+      newTodo.value.created = created;
+      newTodo.value.lastUpdated = lastUpdated;
 
       await addToDo(newTodo.value);
 

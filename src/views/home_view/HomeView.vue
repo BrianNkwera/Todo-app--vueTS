@@ -6,14 +6,30 @@ import { ref } from "vue";
 import ToDoForm from "./components/ToDoForm.vue";
 import TabsComponent from "../../shared/TabsComponent.vue";
 import TodoList from "./components/TodoList.vue";
+import { TodoType } from "../../types/todoInterface";
 
 //data
 const isCreateTodoForm = ref(true);
-const toDoFormaModalDisplayed = ref(false);
+const toDoFormModalDisplayed = ref(false);
+const selectedToDoItem = ref<TodoType | null>(null);
 
 const openCreateTodoModal = () => {
+  selectedToDoItem.value = null;
   isCreateTodoForm.value = true;
-  toDoFormaModalDisplayed.value = true;
+  toDoFormModalDisplayed.value = true;
+
+  setTimeout(() => {
+    const categoryModal = document.getElementById("createTodoModal");
+    //@ts-ignore
+    const modal = new bootstrap.Modal(categoryModal);
+    modal?.show();
+  }, 200);
+};
+
+const openEditTodoModal = (toDoItem: TodoType) => {
+  selectedToDoItem.value = toDoItem;
+  isCreateTodoForm.value = false;
+  toDoFormModalDisplayed.value = true;
 
   setTimeout(() => {
     const categoryModal = document.getElementById("createTodoModal");
@@ -37,7 +53,7 @@ const openCreateTodoModal = () => {
     </div>
 
     <div class="todos pe-md-4">
-      <TodoList class="my-3" />
+      <TodoList @editTodo="openEditTodoModal($event)" class="my-3" />
     </div>
 
     <button
@@ -48,7 +64,7 @@ const openCreateTodoModal = () => {
       +
     </button>
   </div>
-  <ToDoForm :isCreateTodoForm="isCreateTodoForm" :toDoItem="null"/>
+  <ToDoForm v-if="toDoFormModalDisplayed" :isCreateTodoForm="isCreateTodoForm" :toDoItem="selectedToDoItem" @onCloseModal="toDoFormModalDisplayed = false"/>
 </template>
 
 <style scoped>

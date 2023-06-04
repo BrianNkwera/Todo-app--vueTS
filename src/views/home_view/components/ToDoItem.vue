@@ -3,7 +3,11 @@ import { TodoType } from "../../../types/todoInterface";
 
 const props = defineProps<TodoType>();
 
-const emit = defineEmits(["editTodo", "deleteTodo"]);
+const emit = defineEmits(["editTodo", "deleteTodo", "checkedCompleted"]);
+
+const checkedCompleted = () => {
+    emit("checkedCompleted")
+}
 
 const deleteToDo = (id: string) => {
   emit("deleteTodo", id);
@@ -19,7 +23,7 @@ const editToDo = () => {
     class="d-flex shadow border p-3 mx-md-2 justify-content-between align-items-center row"
   >
     <div class="d-flex align-items-center col-9 col-md-9 mb-2">
-      <input type="checkbox" class="me-3 form-check-input no-outline" />
+      <input type="checkbox" v-model="props.completed" @input="checkedCompleted" class="me-3 form-check-input no-outline" />
       <div class="d-inline-block">
         <p class="mb-0 text-truncate d-inlne-block title">{{ props.title }}</p>
         <small class="text-muted text-truncate d-inline-block description">{{

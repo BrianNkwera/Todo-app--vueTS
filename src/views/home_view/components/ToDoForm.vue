@@ -97,6 +97,15 @@
                   }}
                 </div>
               </div>
+              <div class="mb-3">
+                <input
+                  v-if="toDoItem !== null"
+                  type="checkbox"
+                  class="me-2 form-check-input no-outline"
+                  v-model="editedTodo.completed"
+                />
+                <label class="form-check-label">Task completed?</label>
+              </div>
               <button
                 v-if="toDoItem === null"
                 :disabled="loading"
@@ -300,7 +309,7 @@ const editSelectedTodo = async () => {
       editingErrors.value.description === ""
     ) {
       loading.value = true;
-      
+
       editedTodo.value.lastUpdated = new Date().toString();
 
       await updateTodo(editedTodo.value);

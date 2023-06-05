@@ -106,7 +106,7 @@ const openConfirmationModal = async (id: string) => {
 
 const searchTasks = (searchQuery: string) => {
   if (searchQuery === "") {
-    displayedTodos.value = todos.value;
+    displayedTodos.value = [...todos.value].reverse();
     return;
   }
 

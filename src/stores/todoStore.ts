@@ -109,4 +109,9 @@ export default defineStore("todo", {
 
     },
   },
+  getters: {
+    getCompletedTasks(state) {
+        return state.todos.filter((todo) => todo.completed)
+    }
+  }
 });

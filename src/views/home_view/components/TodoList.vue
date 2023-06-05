@@ -42,15 +42,20 @@ const editTodo = (toDoItem: TodoType) => {
 };
 
 const onDeleteTodo = async () => {
-  loadingDelete.value = true;
-  await deleteTodo(deletedTodo.value);
-  loadingDelete.value = false;
+  try {
+    loadingDelete.value = true;
+    await deleteTodo(deletedTodo.value);
 
-  const modal = document.getElementById("confirmModal");
-  if (!modal) return;
-  //@ts-ignore
-  const categoryModal = bootstrap.Modal.getInstance(modal);
-  categoryModal?.hide();
+    const modal = document.getElementById("confirmModal");
+    if (!modal) return;
+    //@ts-ignore
+    const categoryModal = bootstrap.Modal.getInstance(modal);
+    categoryModal?.hide();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loadingDelete.value = false;
+  }
 };
 
 const openConfirmationModal = async (id: string) => {
@@ -94,7 +99,12 @@ const openConfirmationModal = async (id: string) => {
     </div>
   </div>
   <ConfirmationModal placeholder="Are you sure you want to delete todo item?">
-    <button style="width: 70px" @click="onDeleteTodo" class="btn bg-secondary text-white" type="button">
+    <button
+      style="width: 70px"
+      @click="onDeleteTodo"
+      class="btn bg-secondary text-white"
+      type="button"
+    >
       <div v-if="loadingDelete" class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>

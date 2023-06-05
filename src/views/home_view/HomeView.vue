@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 //imports
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 
 //components
 import ToDoForm from "./components/ToDoForm.vue";
@@ -8,11 +9,27 @@ import TabsComponent from "../../shared/TabsComponent.vue";
 import TodoList from "./components/TodoList.vue";
 import { TodoType } from "../../types/todoInterface";
 
+//stores
+import useTodoStore from "../../stores/todoStore";
+
+const { todos } = storeToRefs(useTodoStore());
+const { getAllTodos } = useTodoStore();
+
 //data
+const loadingTodos = ref(true);
 const isCreateTodoForm = ref(true);
 const toDoFormModalDisplayed = ref(false);
 const selectedToDoItem = ref<TodoType | null>(null);
+const displayedTodos = ref<TodoType[]>([]);
 
+//hooks
+onMounted(async () => {
+    await getAllTodos();
+    loadingTodos.value = false;
+    displayedTodos.value = todos.value;
+});
+
+//methods
 const openCreateTodoModal = () => {
     selectedToDoItem.value = null;
     isCreateTodoForm.value = true;
@@ -53,7 +70,7 @@ const openEditTodoModal = (toDoItem: TodoType) => {
         </div>
 
         <div class="todos pe-md-4">
-            <TodoList @editTodo="openEditTodoModal($event)" class="my-3" />
+            <TodoList  @editTodo="openEditTodoModal($event)" :todos="displayedTodos" :loadingTodos="loadingTodos"/>
         </div>
 
         <button class="float bg-primary text-white btn fw-bolder" target="_blank" @click="openCreateTodoModal">

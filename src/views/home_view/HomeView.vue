@@ -34,6 +34,17 @@ onMounted(async () => {
 });
 
 //methods
+const filterTodos = (tab: "All Tasks" | "Completed") => {
+  if (tab === "Completed") {
+    displayedTodos.value = todos.value.filter((todo) => todo.completed === true);
+    console.log(displayedTodos.value)
+  }
+
+  if (tab === "All Tasks") {
+    displayedTodos.value = todos.value;
+  }
+};
+
 const openCreateTodoModal = () => {
   selectedToDoItem.value = null;
   isCreateTodoForm.value = true;
@@ -100,14 +111,17 @@ const openConfirmationModal = async (id: string) => {
         </div>
       </div>
 
-      <TabsComponent :tabs="['All Tasks', 'Completed']" />
+      <TabsComponent
+        :tabs="['All Tasks', 'Completed']"
+        @onSelected="filterTodos($event)"
+      />
     </div>
 
     <div class="todos pe-md-4">
       <TodoList
         @editTodo="openEditTodoModal($event)"
         @onDeleteTodo="openConfirmationModal($event)"
-        :todos="displayedTodos"
+        :todos="[...displayedTodos].reverse()"
         :loadingTodos="loadingTodos"
       />
     </div>

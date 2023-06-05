@@ -64,6 +64,7 @@ const onDeleteTodo = async () => {
   try {
     loadingDelete.value = true;
     await deleteTodo(deletedTodo.value);
+    displayedTodos.value = todos.value;
 
     const modal = document.getElementById("confirmModal");
     if (!modal) return;
@@ -78,7 +79,6 @@ const onDeleteTodo = async () => {
 };
 
 const openConfirmationModal = async (id: string) => {
-    console.log(id)
   deletedTodo.value = id;
   confirmationModalOpened.value = true;
 

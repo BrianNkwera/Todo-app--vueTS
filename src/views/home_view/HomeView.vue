@@ -3,12 +3,14 @@
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { TodoType } from "../../types/todoInterface";
+import Fuse from "fuse.js";
 
 //components
 import ToDoForm from "./components/ToDoForm.vue";
 import TabsComponent from "../../shared/TabsComponent.vue";
 import TodoList from "./components/TodoList.vue";
 import ConfirmationModal from "../../shared/ConfirmationModal.vue";
+import SearchForm from "./components/SearchForm.vue";
 
 //stores
 import useTodoStore from "../../stores/todoStore";
@@ -30,18 +32,19 @@ const confirmationModalOpened = ref(false);
 onMounted(async () => {
   await getAllTodos();
   loadingTodos.value = false;
-  displayedTodos.value = todos.value;
+  displayedTodos.value = [...todos.value].reverse();
 });
 
 //methods
 const filterTodos = (tab: "All Tasks" | "Completed") => {
   if (tab === "Completed") {
-    displayedTodos.value = todos.value.filter((todo) => todo.completed === true);
-    console.log(displayedTodos.value)
+    displayedTodos.value = [
+      ...todos.value.filter((todo) => todo.completed === true),
+    ].reverse();
   }
 
   if (tab === "All Tasks") {
-    displayedTodos.value = todos.value;
+    displayedTodos.value = [...todos.value].reverse();
   }
 };
 
@@ -100,6 +103,20 @@ const openConfirmationModal = async (id: string) => {
     modal?.show();
   }, 200);
 };
+
+const searchTasks = (searchQuery: string) => {
+  const options = {
+    keys: ["title", "description"],
+  };
+
+  const fuse = new Fuse(todos.value, options);
+
+  const results = fuse.search(searchQuery);
+
+  displayedTodos.value = results.map((result) => result.item);
+
+  console.log(displayedTodos.value);
+};
 </script>
 
 <template>
@@ -111,17 +128,20 @@ const openConfirmationModal = async (id: string) => {
         </div>
       </div>
 
-      <TabsComponent
-        :tabs="['All Tasks', 'Completed']"
-        @onSelected="filterTodos($event)"
-      />
+      <div class="d-flex justify-content-between">
+        <TabsComponent
+          :tabs="['All Tasks', 'Completed']"
+          @onSelected="filterTodos($event)"
+        />
+        <SearchForm @search="searchTasks($event)" />
+      </div>
     </div>
 
     <div class="todos pe-md-4">
       <TodoList
         @editTodo="openEditTodoModal($event)"
         @onDeleteTodo="openConfirmationModal($event)"
-        :todos="[...displayedTodos].reverse()"
+        :todos="displayedTodos"
         :loadingTodos="loadingTodos"
       />
     </div>

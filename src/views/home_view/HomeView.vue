@@ -105,6 +105,11 @@ const openConfirmationModal = async (id: string) => {
 };
 
 const searchTasks = (searchQuery: string) => {
+  if (searchQuery === "") {
+    displayedTodos.value = todos.value;
+    return;
+  }
+
   const options = {
     keys: ["title", "description"],
   };
@@ -114,8 +119,6 @@ const searchTasks = (searchQuery: string) => {
   const results = fuse.search(searchQuery);
 
   displayedTodos.value = results.map((result) => result.item);
-
-  console.log(displayedTodos.value);
 };
 </script>
 

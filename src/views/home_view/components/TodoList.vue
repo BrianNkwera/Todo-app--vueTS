@@ -1,7 +1,4 @@
 <script setup lang="ts">
-//imports'
-import { storeToRefs } from "pinia";
-
 //components
 import ToDoItem from "./ToDoItem.vue";
 
@@ -9,7 +6,6 @@ import ToDoItem from "./ToDoItem.vue";
 import useTodoStore from "../../../stores/todoStore";
 import { TodoType } from "../../../types/todoInterface";
 
-const { todos } = storeToRefs(useTodoStore());
 const { updateTodo } = useTodoStore();
 
 //props
@@ -46,8 +42,8 @@ const onDeleteTodo = (id: string) => {
     </div>
   </div>
   <div v-else>
-    <div v-if="todos.length === 0" class="my-5">
-      <h3>List Empty</h3>
+    <div v-if="props.todos.length === 0" class="my-5">
+      <h3>No Items</h3>
     </div>
     <div v-else>
       <ToDoItem

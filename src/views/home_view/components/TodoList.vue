@@ -18,6 +18,7 @@ const { getAllTodos, updateTodo, deleteTodo } = useTodoStore();
 const loadingTodos = ref(true);
 const loadingDelete = ref(false);
 const deletedTodo = ref("");
+const displayedTodos = ref<TodoType[]>([]);
 const confirmationModalOpened = ref(false);
 
 //emits
@@ -26,6 +27,7 @@ const emit = defineEmits(["editTodo"]);
 onMounted(async () => {
   await getAllTodos();
   loadingTodos.value = false;
+  displayedTodos.value = todos.value;
 });
 
 //methods
@@ -85,7 +87,7 @@ const openConfirmationModal = async (id: string) => {
       <ToDoItem
         class="mb-3"
         :key="todo.id"
-        v-for="todo in todos"
+        v-for="todo in displayedTodos"
         :id="todo.id"
         :title="todo.title"
         :completed="todo.completed"

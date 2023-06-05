@@ -78,6 +78,7 @@ const onDeleteTodo = async () => {
 };
 
 const openConfirmationModal = async (id: string) => {
+    console.log(id)
   deletedTodo.value = id;
   confirmationModalOpened.value = true;
 
@@ -105,6 +106,7 @@ const openConfirmationModal = async (id: string) => {
     <div class="todos pe-md-4">
       <TodoList
         @editTodo="openEditTodoModal($event)"
+        @onDeleteTodo="openConfirmationModal($event)"
         :todos="displayedTodos"
         :loadingTodos="loadingTodos"
       />
@@ -123,7 +125,6 @@ const openConfirmationModal = async (id: string) => {
     :isCreateTodoForm="isCreateTodoForm"
     :toDoItem="selectedToDoItem"
     @onCloseModal="toDoFormModalDisplayed = false"
-    @deletedTodo="openConfirmationModal"
   />
   <ConfirmationModal
     v-if="confirmationModalOpened"

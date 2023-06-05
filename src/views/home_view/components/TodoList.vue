@@ -19,7 +19,7 @@ const props = defineProps<{
 }>();
 
 //emits
-const emit = defineEmits(["editTodo", "deleteTodo"]);
+const emit = defineEmits(["editTodo", "onDeleteTodo"]);
 
 //methods
 const checkedCompleted = (todo: TodoType) => {
@@ -35,7 +35,7 @@ const editTodo = (toDoItem: TodoType) => {
 };
 
 const onDeleteTodo = (id: string) => {
-  emit("deleteTodo", id);
+  emit("onDeleteTodo", id);
 };
 </script>
 

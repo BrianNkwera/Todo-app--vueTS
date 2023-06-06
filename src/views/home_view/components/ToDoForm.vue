@@ -19,7 +19,7 @@
             <button
               @click="closeModal"
               type="button"
-              class="bg-secondary border-0 float-end text-white me-4"
+              class="bg-primary border-0 float-end text-white me-4"
             >
               X
             </button>

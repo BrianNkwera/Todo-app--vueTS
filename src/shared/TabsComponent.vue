@@ -30,7 +30,7 @@ const setSelectedTab = (tab: string) => {
       <a
         :class="[
           tab === selectedTab && 'active text-primary',
-          'nav-link fw-bold text-dark px-2 px-md-2',
+          'nav-link fw-bold text-dark px-2',
         ]"
         @click="setSelectedTab(tab)"
       >
@@ -53,7 +53,7 @@ const setSelectedTab = (tab: string) => {
 
 @media only screen and (max-width: 600px) {
   .nav-link {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 }
 </style>

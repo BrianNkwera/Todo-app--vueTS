@@ -29,6 +29,7 @@ const showLargeSearchBar = ref(false);
 const displayedTodos = ref<TodoType[]>([]);
 const deletedTodo = ref("");
 const confirmationModalOpened = ref(false);
+const searching = ref(false);
 
 //computed data
 const allTodos = computed<TodoType[]>(() => [...todos.value].reverse());
@@ -44,6 +45,7 @@ onMounted(async () => {
 
 //methods
 const filterTodos = (tab: "All Tasks" | "Completed") => {
+  searching.value = false;
   activeTab.value = tab;
 };
 
@@ -105,9 +107,12 @@ const openConfirmationModal = async (id: string) => {
 
 const searchTasks = (searchQuery: string) => {
   if (searchQuery === "") {
+    searching.value = false;
     displayedTodos.value = [...todos.value].reverse();
     return;
   }
+
+  searching.value = true;
 
   const options = {
     keys: ["title", "description"],
@@ -165,7 +170,13 @@ const searchTasks = (searchQuery: string) => {
       <TodoList
         @editTodo="openEditTodoModal($event)"
         @onDeleteTodo="openConfirmationModal($event)"
-        :todos="activeTab === 'Completed' ? completedTodos : allTodos"
+        :todos="
+          searching
+            ? displayedTodos
+            : activeTab === 'Completed'
+            ? completedTodos
+            : allTodos
+        "
         :loadingTodos="loadingTodos"
       />
     </div>

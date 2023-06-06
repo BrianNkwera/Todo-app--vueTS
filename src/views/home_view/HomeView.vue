@@ -130,7 +130,7 @@ const searchTasks = (searchQuery: string) => {
         </div>
       </div>
 
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between pb-3">
         <TabsComponent
           v-if="!showLargeSearchBar"
           :tabs="['All Tasks', 'Completed']"
@@ -138,6 +138,13 @@ const searchTasks = (searchQuery: string) => {
           :numberOfCompletedTasks="completedTodos.length"
           @onSelected="filterTodos($event)"
         />
+        <button
+          v-else
+          @click="showLargeSearchBar = false"
+          class="btn bg-white text-primary shadow no-outline"
+        >
+          <font-awesome-icon icon="fa-solid fa-arrow-left" />
+        </button>
 
         <div class="d-none d-md-flex">
           <SearchForm @search="searchTasks($event)" />
@@ -145,6 +152,7 @@ const searchTasks = (searchQuery: string) => {
         <div class="d-md-none d-flex align-items-center">
           <SearchForm v-if="showLargeSearchBar" @search="searchTasks($event)" />
           <font-awesome-icon
+            v-else
             @click="showLargeSearchBar = true"
             icon="fa-solid fa-magnifying-glass"
             class="text-primary"

@@ -39,9 +39,7 @@ const completedTodos = computed<TodoType[]>(() =>
   [...todos.value.filter((todo) => todo.completed === true)].reverse()
 );
 const inProgressTodos = computed<TodoType[]>(() =>
-  [
-    ...todos.value.filter((todo) => todo.completed === false ),
-  ].reverse()
+  [...todos.value.filter((todo) => todo.completed === false)].reverse()
 );
 
 //hooks
@@ -137,7 +135,7 @@ const searchTasks = (searchQuery: string) => {
 </script>
 
 <template>
-  <div id="homeView" class="container py-5 ">
+  <div id="homeView" class="container py-5">
     <div class="sticky-top z-200 bg-white pb-3">
       <div class="mb-4">
         <div>
@@ -154,13 +152,14 @@ const searchTasks = (searchQuery: string) => {
           :numberOfCompletedTasks="completedTodos.length"
           @onSelected="filterTodos($event)"
         />
-        <button
-          v-else
-          @click="showLargeSearchBar = false"
-          class="btn bg-white text-primary shadow no-outline"
-        >
-          <font-awesome-icon icon="fa-solid fa-arrow-left" />
-        </button>
+
+        <div v-else class="d-flex align-items-center">
+          <font-awesome-icon
+            @click="showLargeSearchBar = false"
+            icon="fa-solid fa-arrow-left"
+            class="text-primary fw-bolder fs-3"
+          />
+        </div>
 
         <div class="d-none d-md-flex">
           <SearchForm @search="searchTasks($event)" />

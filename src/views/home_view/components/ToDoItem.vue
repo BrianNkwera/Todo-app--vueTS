@@ -20,7 +20,7 @@ const editToDo = () => {
 
 <template>
   <div
-    class="d-flex shadow border p-3 mx-md-2 justify-content-between align-items-center row"
+    class="d-flex shadow border py-3 px-md-2 px-1  mx-1 justify-content-between align-items-center row"
   >
     <div class="d-flex align-items-center col-9 col-md-9 mb-2">
       <input type="checkbox" v-model="props.completed" @input="checkedCompleted" class="me-3 form-check-input no-outline" />
@@ -72,7 +72,7 @@ const editToDo = () => {
 @media only screen and (max-width: 424px) {
   .description,
   .title {
-    max-width: 120px;
+    max-width: 100px;
   }
 }
 </style>

@@ -7,7 +7,7 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 bg-inherit">
         <div class="modal-body p-0">
           <form

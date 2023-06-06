@@ -27,7 +27,6 @@ export default defineStore("notification", {
       this.notification.title = "";
       this.notification.details = "";
       this.notification.isSuccess = false;
-      this.notification.show = false;
     },
   },
 });

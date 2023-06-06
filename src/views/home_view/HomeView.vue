@@ -21,7 +21,7 @@ const { getAllTodos, deleteTodo } = useTodoStore();
 const { showNotification } = useNotificationStore();
 
 //data
-const activeTab = ref<"All Tasks" | "Completed">("All Tasks");
+const activeTab = ref<"All Tasks" | "In Progress" | "Completed">("All Tasks");
 const loadingDelete = ref(false);
 const loadingTodos = ref(true);
 const isCreateTodoForm = ref(true);
@@ -38,6 +38,11 @@ const allTodos = computed<TodoType[]>(() => [...todos.value].reverse());
 const completedTodos = computed<TodoType[]>(() =>
   [...todos.value.filter((todo) => todo.completed === true)].reverse()
 );
+const inProgressTodos = computed<TodoType[]>(() =>
+  [
+    ...todos.value.filter((todo) => todo.completed === false || "false"),
+  ].reverse()
+);
 
 //hooks
 onMounted(async () => {
@@ -46,7 +51,7 @@ onMounted(async () => {
 });
 
 //methods
-const filterTodos = (tab: "All Tasks" | "Completed") => {
+const filterTodos = (tab: "All Tasks" | "In Progress" | "Completed") => {
   searching.value = false;
   activeTab.value = tab;
 };
@@ -81,7 +86,6 @@ const onDeleteTodo = async () => {
   try {
     loadingDelete.value = true;
     await deleteTodo(deletedTodo.value);
-    displayedTodos.value = todos.value;
   } catch (error: any) {
     error.name = "";
     showNotification({
@@ -144,7 +148,7 @@ const searchTasks = (searchQuery: string) => {
       <div class="d-flex justify-content-between pb-3">
         <TabsComponent
           v-if="!showLargeSearchBar"
-          :tabs="['All Tasks', 'Completed']"
+          :tabs="['All Tasks', 'In Progres', 'Completed']"
           :numberOfAlltasks="allTodos.length"
           :numberOfCompletedTasks="completedTodos.length"
           @onSelected="filterTodos($event)"
@@ -181,6 +185,8 @@ const searchTasks = (searchQuery: string) => {
             ? displayedTodos
             : activeTab === 'Completed'
             ? completedTodos
+            : activeTab === 'In Progress'
+            ? inProgressTodos
             : allTodos
         "
         :loadingTodos="loadingTodos"

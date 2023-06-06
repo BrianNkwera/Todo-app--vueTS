@@ -24,6 +24,7 @@ const loadingTodos = ref(true);
 const isCreateTodoForm = ref(true);
 const toDoFormModalDisplayed = ref(false);
 const selectedToDoItem = ref<TodoType | null>(null);
+const showLargeSearchBar = ref(false);
 const displayedTodos = ref<TodoType[]>([]);
 const deletedTodo = ref("");
 const confirmationModalOpened = ref(false);
@@ -133,10 +134,22 @@ const searchTasks = (searchQuery: string) => {
 
       <div class="d-flex justify-content-between">
         <TabsComponent
+          v-if="!showLargeSearchBar"
           :tabs="['All Tasks', 'Completed']"
           @onSelected="filterTodos($event)"
         />
-        <SearchForm @search="searchTasks($event)" />
+
+        <div class="d-none d-md-flex">
+          <SearchForm @search="searchTasks($event)" />
+        </div>
+        <div class="d-md-none d-flex align-items-center">
+          <SearchForm v-if="showLargeSearchBar" @search="searchTasks($event)" />
+          <font-awesome-icon
+            @click="showLargeSearchBar = true"
+            icon="fa-solid fa-magnifying-glass"
+            class="text-primary"
+          />
+        </div>
       </div>
     </div>
 

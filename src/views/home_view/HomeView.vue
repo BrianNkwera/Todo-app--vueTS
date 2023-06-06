@@ -40,7 +40,7 @@ const completedTodos = computed<TodoType[]>(() =>
 );
 const inProgressTodos = computed<TodoType[]>(() =>
   [
-    ...todos.value.filter((todo) => todo.completed === false || "false"),
+    ...todos.value.filter((todo) => todo.completed === false ),
   ].reverse()
 );
 
@@ -148,7 +148,7 @@ const searchTasks = (searchQuery: string) => {
       <div class="d-flex justify-content-between pb-3">
         <TabsComponent
           v-if="!showLargeSearchBar"
-          :tabs="['All Tasks', 'In Progres', 'Completed']"
+          :tabs="['All Tasks', 'In Progress', 'Completed']"
           :numberOfAlltasks="allTodos.length"
           :numberOfCompletedTasks="completedTodos.length"
           @onSelected="filterTodos($event)"

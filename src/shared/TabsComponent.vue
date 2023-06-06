@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 interface TabsProps {
-  tabs: string[];
+  tabs: ["All Tasks", "In Progress", "Completed"];
   numberOfCompletedTasks: number;
   numberOfAlltasks: number;
 }

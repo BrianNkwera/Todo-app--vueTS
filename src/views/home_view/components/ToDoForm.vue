@@ -13,7 +13,7 @@
           <form
             @submit.prevent
             id="toDoForm"
-            class="mt-3 w-100 shadow bg-white"
+            class="mt-3 w-100 bg-white"
             @submit="toDoItem === null ? createNewTodo : editSelectedTodo"
           >
             <button

@@ -97,9 +97,8 @@
                   }}
                 </div>
               </div>
-              <div class="mb-3">
+              <div v-if="toDoItem !== null" class="mb-3">
                 <input
-                  v-if="toDoItem !== null"
                   type="checkbox"
                   class="me-2 form-check-input no-outline"
                   v-model="editedTodo.completed"
@@ -138,7 +137,7 @@
     </div>
   </div>
 </template>
-  
+
 <script setup lang="ts">
 import { ref, watch, onMounted } from "vue";
 import { useVuelidate } from "@vuelidate/core";
@@ -341,7 +340,7 @@ const editSelectedTodo = async () => {
   }
 };
 </script>
-  
+
 <style scoped>
 .modal-body {
   max-width: 480px;
@@ -349,4 +348,3 @@ const editSelectedTodo = async () => {
     margin-right: auto; */
 }
 </style>
-  

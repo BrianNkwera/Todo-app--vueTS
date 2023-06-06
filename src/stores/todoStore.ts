@@ -27,7 +27,6 @@ export default defineStore("todo", {
         body: toDo,
       });
 
-      console.log(status);
 
       if (status !== 201) {
         const error = data as MessageResponseType;

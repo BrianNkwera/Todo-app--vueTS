@@ -139,9 +139,9 @@ const searchTasks = (searchQuery: string) => {
 <template>
   <div id="homeView" class="container py-5 px-md-2">
     <div class="sticky-top z-200 bg-white pb-3">
-      <div class="d-flex justify-content-between mb-4">
+      <div class="mb-4">
         <div>
-          <h3>To Do</h3>
+          <h3 class="text-center">To Do</h3>
         </div>
       </div>
 

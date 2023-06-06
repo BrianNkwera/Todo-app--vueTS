@@ -4,11 +4,9 @@ import ToDoItem from "./ToDoItem.vue";
 
 //stores
 import useTodoStore from "../../../stores/todoStore";
-import useNotificationStore from "../../../stores/notificationStore";
 import { TodoType } from "../../../types/todoInterface";
 
 const { updateTodo } = useTodoStore();
-const { showNotification } = useNotificationStore();
 
 //props
 const props = defineProps<{
@@ -20,21 +18,12 @@ const props = defineProps<{
 const emit = defineEmits(["editTodo", "onDeleteTodo"]);
 
 //methods
-const checkedCompleted = async (todo: TodoType) => {
-  try {
-    const todoToUpdate = { ...todo };
+const checkedCompleted = (todo: TodoType) => {
+  const todoToUpdate = { ...todo };
 
-    await updateTodo(todoToUpdate);
+  todoToUpdate.completed = !todoToUpdate.completed;
 
-    todoToUpdate.completed = !todoToUpdate.completed;
-  } catch (error: any) {
-    error.name = "";
-    showNotification({
-      title: "Failed to check item",
-      details: error,
-      isSuccess: false,
-    });
-  }
+  updateTodo(todoToUpdate);
 };
 
 const editTodo = (toDoItem: TodoType) => {

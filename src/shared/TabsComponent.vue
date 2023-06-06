@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 interface TabsProps {
   tabs: ["All Tasks", "In Progress", "Completed"];
+  numberOfInProgressTasks: number;
   numberOfCompletedTasks: number;
   numberOfAlltasks: number;
 }
@@ -35,7 +36,7 @@ const setSelectedTab = (tab: string) => {
           @click="setSelectedTab(tab)"
         >
           {{ tab }} ({{
-            tab === "Completed" ? numberOfCompletedTasks : numberOfAlltasks
+            tab === "Completed" ? numberOfCompletedTasks : tab === "In Progress" ? numberOfInProgressTasks : numberOfAlltasks
           }})
         </a>
       </li>

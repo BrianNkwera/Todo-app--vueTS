@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 //imports
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { TodoType } from "../../types/todoInterface";
 import Fuse from "fuse.js";
@@ -19,6 +19,7 @@ const { todos } = storeToRefs(useTodoStore());
 const { getAllTodos, deleteTodo } = useTodoStore();
 
 //data
+const activeTab = ref<"All Tasks" | "Completed">("All Tasks");
 const loadingDelete = ref(false);
 const loadingTodos = ref(true);
 const isCreateTodoForm = ref(true);
@@ -29,24 +30,21 @@ const displayedTodos = ref<TodoType[]>([]);
 const deletedTodo = ref("");
 const confirmationModalOpened = ref(false);
 
+//computed data
+const allTodos = computed<TodoType[]>(() => [...todos.value].reverse());
+const completedTodos = computed<TodoType[]>(() =>
+  [...todos.value.filter((todo) => todo.completed === true)].reverse()
+);
+
 //hooks
 onMounted(async () => {
   await getAllTodos();
   loadingTodos.value = false;
-  displayedTodos.value = [...todos.value].reverse();
 });
 
 //methods
 const filterTodos = (tab: "All Tasks" | "Completed") => {
-  if (tab === "Completed") {
-    displayedTodos.value = [
-      ...todos.value.filter((todo) => todo.completed === true),
-    ].reverse();
-  }
-
-  if (tab === "All Tasks") {
-    displayedTodos.value = [...todos.value].reverse();
-  }
+  activeTab.value = tab;
 };
 
 const openCreateTodoModal = () => {
@@ -157,7 +155,7 @@ const searchTasks = (searchQuery: string) => {
       <TodoList
         @editTodo="openEditTodoModal($event)"
         @onDeleteTodo="openConfirmationModal($event)"
-        :todos="displayedTodos"
+        :todos="activeTab === 'Completed' ? completedTodos : allTodos"
         :loadingTodos="loadingTodos"
       />
     </div>

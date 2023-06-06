@@ -14,9 +14,11 @@ import SearchForm from "./components/SearchForm.vue";
 
 //stores
 import useTodoStore from "../../stores/todoStore";
+import useNotificationStore from "../../stores/notificationStore";
 
 const { todos } = storeToRefs(useTodoStore());
 const { getAllTodos, deleteTodo } = useTodoStore();
+const { showNotification } = useNotificationStore();
 
 //data
 const activeTab = ref<"All Tasks" | "Completed">("All Tasks");
@@ -80,16 +82,21 @@ const onDeleteTodo = async () => {
     loadingDelete.value = true;
     await deleteTodo(deletedTodo.value);
     displayedTodos.value = todos.value;
-
+  } catch (error: any) {
+    error.name = "";
+    console.log(error);
+    showNotification({
+      title: "Failed to delete item",
+      details: error,
+      isSuccess: false,
+    });
+  } finally {
+    loadingDelete.value = false;
     const modal = document.getElementById("confirmModal");
     if (!modal) return;
     //@ts-ignore
     const categoryModal = bootstrap.Modal.getInstance(modal);
     categoryModal?.hide();
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loadingDelete.value = false;
   }
 };
 

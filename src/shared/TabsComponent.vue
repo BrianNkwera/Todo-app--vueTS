@@ -25,23 +25,35 @@ const setSelectedTab = (tab: string) => {
 </script>
 
 <template>
-  <div class="d-flex justify-content-start align-items-center">
-    <ul class="nav nav-tabs">
-      <li v-for="tab in props.tabs" :key="tab" class="cursor-pointer">
-        <a
-          :class="[
-            tab === selectedTab && 'active text-primary',
-            'nav-link fw-bold text-dark',
-          ]"
-          @click="setSelectedTab(tab)"
-        >
-          {{ tab }} ({{
-            tab === "Completed" ? numberOfCompletedTasks : tab === "In Progress" ? numberOfInProgressTasks : numberOfAlltasks
-          }})
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ul class="nav nav-tabs">
+    <li v-for="tab in props.tabs" :key="tab" class="cursor-pointer">
+      <a
+        :class="[
+          tab === selectedTab && 'active text-primary',
+          'nav-link fw-bold text-dark px-2 px-md-2',
+        ]"
+        @click="setSelectedTab(tab)"
+      >
+        {{ tab }} ({{
+          tab === "Completed"
+            ? numberOfCompletedTasks
+            : tab === "In Progress"
+            ? numberOfInProgressTasks
+            : numberOfAlltasks
+        }})
+      </a>
+    </li>
+  </ul>
 </template>
 
-<style scoped></style>
+<style scoped>
+.nav-link {
+  font-size: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .nav-link {
+    font-size: 0.8rem;
+  }
+}
+</style>

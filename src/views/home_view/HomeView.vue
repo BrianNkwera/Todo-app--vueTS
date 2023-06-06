@@ -137,7 +137,7 @@ const searchTasks = (searchQuery: string) => {
 </script>
 
 <template>
-  <div id="homeView" class="container py-5 px-md-2">
+  <div id="homeView" class="container py-5 px-md-2 ">
     <div class="sticky-top z-200 bg-white pb-3">
       <div class="mb-4">
         <div>

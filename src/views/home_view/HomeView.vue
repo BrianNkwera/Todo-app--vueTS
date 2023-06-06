@@ -177,7 +177,7 @@ const searchTasks = (searchQuery: string) => {
       </div>
     </div>
 
-    <div class="todos pe-md-4">
+    <div class="todos">
       <TodoList
         @editTodo="openEditTodoModal($event)"
         @onDeleteTodo="openConfirmationModal($event)"
@@ -228,7 +228,7 @@ const searchTasks = (searchQuery: string) => {
 
 <style scoped>
 #homeView {
-  max-width: 750px !important;
+  max-width: 800px !important;
 }
 
 @media only screen and (min-width: 720px) {

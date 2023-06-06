@@ -84,7 +84,6 @@ const onDeleteTodo = async () => {
     displayedTodos.value = todos.value;
   } catch (error: any) {
     error.name = "";
-    console.log(error);
     showNotification({
       title: "Failed to delete item",
       details: error,

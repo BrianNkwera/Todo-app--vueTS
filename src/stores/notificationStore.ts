@@ -4,7 +4,6 @@ import type { NotificationType } from "../types/notificationInterface";
 export default defineStore("notification", {
   state: () => ({
     notification: {
-      show: false,
       title: "",
       details: "",
       isSuccess: false,
@@ -16,7 +15,6 @@ export default defineStore("notification", {
       this.notification.title = notification.title;
       this.notification.details = notification?.details || "";
       this.notification.isSuccess = notification.isSuccess;
-      this.notification.show = true;
 
       const toastLiveExample = document.getElementById("notificationToast");
 

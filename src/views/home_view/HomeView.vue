@@ -134,6 +134,8 @@ const searchTasks = (searchQuery: string) => {
         <TabsComponent
           v-if="!showLargeSearchBar"
           :tabs="['All Tasks', 'Completed']"
+          :numberOfAlltasks="allTodos.length"
+          :numberOfCompletedTasks="completedTodos.length"
           @onSelected="filterTodos($event)"
         />
 

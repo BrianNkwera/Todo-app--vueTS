@@ -11,7 +11,7 @@
           />
         </div>
       </div>
-      <h1 class="text-primary">No Internet Connection!</h1>
+      <h1 class="text-primary px-3 mx-2">No Internet Connection!</h1>
     </div>
   </div>
 </template>

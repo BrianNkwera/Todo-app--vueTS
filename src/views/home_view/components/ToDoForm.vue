@@ -108,7 +108,7 @@
               <button
                 v-if="toDoItem === null"
                 :disabled="loading"
-                type="button"
+                type="submit"
                 @click="createNewTodo"
                 class="zoom btn bg-primary text-white w-100 mt-3"
               >
@@ -121,7 +121,7 @@
               <button
                 v-else
                 :disabled="loading"
-                type="button"
+                type="submit"
                 @click="editSelectedTodo"
                 class="zoom btn bg-primary text-white w-100 mt-3"
               >

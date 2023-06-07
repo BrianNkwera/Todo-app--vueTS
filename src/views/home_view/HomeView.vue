@@ -135,11 +135,13 @@ const searchTasks = (searchQuery: string) => {
 </script>
 
 <template>
-  <div id="homeView" class="container py-5">
+  <div id="homeView" class="container pb-5 pt-3">
     <div class="sticky-top z-200 bg-white pb-3">
       <div class="mb-4">
         <div>
-          <h3 class="text-center">To Do</h3>
+          <h3 class="text-center text-primary mt-3">
+            <font-awesome-icon icon="fa-solid fa-list-check" /> To Do List
+          </h3>
         </div>
       </div>
 

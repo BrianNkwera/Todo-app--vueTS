@@ -11,6 +11,7 @@ import TabsComponent from "../../shared/TabsComponent.vue";
 import TodoList from "./components/TodoList.vue";
 import ConfirmationModal from "../../shared/ConfirmationModal.vue";
 import SearchForm from "./components/SearchForm.vue";
+import Logo from "../../shared/Logo.vue";
 
 //stores
 import useTodoStore from "../../stores/todoStore";
@@ -137,13 +138,8 @@ const searchTasks = (searchQuery: string) => {
 <template>
   <div id="homeView" class="container pb-5 pt-3">
     <div class="sticky-top z-200 bg-white pb-3">
-      <div class="mb-4">
-        <div>
-          <h3 class="text-center text-primary mt-3">
-            <font-awesome-icon icon="fa-solid fa-list-check" /> To Do List
-          </h3>
-        </div>
-      </div>
+        
+        <Logo />
 
       <div class="d-flex justify-content-between pb-3">
         <TabsComponent

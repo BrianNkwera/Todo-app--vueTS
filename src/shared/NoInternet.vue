@@ -1,23 +1,25 @@
 <template>
-  <div class="d-flex align-items-center">
-    <div class="bg-primary text-white text-center mx-auto p-5 rounded-5">
-      <div class="position-relative">
-        <font-awesome-icon icon="fa-solid fa-wifi" class="wifi" />
-        <font-awesome-icon
-          icon="fa-solid fa-circle-xmark"
-          class="position-absolute top-50 start-100 translate-middle cross"
-        />
+  <div class="d-flex align-items-center py-5 text-center">
+    <div class="mx-auto">
+      <div class="bg-primary text-white mx-auto p-5 rounded-5 mb-4 mt-3">
+        <div class="position-relative">
+          <font-awesome-icon icon="fa-solid fa-wifi" class="wifi" />
+          <font-awesome-icon
+            icon="fa-solid fa-circle-xmark"
+            class="position-absolute top-50 start-100 translate-middle cross"
+          />
+        </div>
       </div>
+      <h1 class="text-primary">No Internet Connection!</h1>
     </div>
   </div>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 <style scoped>
 .wifi {
   font-size: 10rem;
 }
 .cross {
-    font-size: 5rem;
+  font-size: 5rem;
 }
 </style>

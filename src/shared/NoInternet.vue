@@ -1,8 +1,8 @@
 <template>
   <Logo />
-  <div class="d-flex align-items-center py-5 text-center">
+  <div class="d-flex align-items-center pb-5 text-center">
     <div class="mx-auto">
-      <div class="bg-primary text-white mx-auto p-5 rounded-5 mb-4 mt-3">
+      <div class="text-primary mx-auto p-5 mb-4 mt-3">
         <div class="position-relative">
           <font-awesome-icon icon="fa-solid fa-wifi" class="wifi" />
           <font-awesome-icon
